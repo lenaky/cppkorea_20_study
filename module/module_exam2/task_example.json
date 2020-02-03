@@ -1,0 +1,123 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "1. Create Precompiled Module",
+            "command": "/usr/local/clang_9.0.0/bin/clang++",
+            "args": [
+                "-std=c++2a",
+                "-fmodules-ts",
+                "--precompile",
+                "${fileDirname}/math.cppm",
+                "-o",
+                "${fileDirname}/math.pcm"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "2. Compiles the precompiled module",
+            "command": "/usr/local/clang_9.0.0/bin/clang++",
+            "args": [
+                "-std=c++2a",
+                "-fmodules-ts",
+                "-c",
+                "${fileDirname}/math.pcm",
+                "-o",
+                "${fileDirname}/math.pcm.o"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "3-1. Compile Source files",
+            "command": "/usr/local/clang_9.0.0/bin/clang++",
+            "args": [
+                "-std=c++2a",
+                "-fmodules-ts",
+                "-c",
+                "${fileDirname}/math.cpp",
+                "-fmodule-file=${fileDirname}/math.pcm",
+                "-o",
+                "${fileDirname}/math.o"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "3-2. Compile Source files",
+            "command": "/usr/local/clang_9.0.0/bin/clang++",
+            "args": [
+                "-std=c++2a",
+                "-fmodules-ts",
+                "-c",
+                "${fileDirname}/example1.cpp",
+                "-fmodule-file=${fileDirname}/math.pcm",
+                "-o",
+                "${fileDirname}/example1.o"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "4. Create binary",
+            "command": "/usr/local/clang_9.0.0/bin/clang++",
+            "args": [
+                "${fileDirname}/math.pcm",
+                "${fileDirname}/math.o",
+                "${fileDirname}/example1.o",
+                "-o",
+                "${fileDirname}/math"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

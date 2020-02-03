@@ -1,5 +1,5 @@
 // main.cpp
-#include <iostream>
+import std.core;
 import math;
 
 int main()
