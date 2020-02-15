@@ -17,7 +17,7 @@ T gcd(T a, T b){
   }
 }
 
-template<Integral T>
+template<Integral T> 
 class IntegralClass
 {
 
